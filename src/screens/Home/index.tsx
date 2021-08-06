@@ -1,7 +1,9 @@
 import React, {useState} from 'react';
 import { View, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { styles } from './styles';
+
 //Importando os componentes
 import { Profile } from '../../components/Profile';
 import { ButtonAdd } from '../../components/ButtonAdd';
@@ -9,6 +11,8 @@ import { CategorySelect } from '../../components/CategorySelect';
 import { ListHeader } from '../../components/ListHeader';
 import { Appointment } from '../../components/Appointment';
 import { ListDivider } from '../../components/ListDivider';
+import { Background } from '../../components/Background';
+
 
 export function Home(){
     const [category, setCategory] = useState('')
@@ -34,10 +38,70 @@ export function Home(){
                 icon: null,
                 owner: true,
             },
-            category: '1',
+            category: '2',
             date: '22/06 ás 20:40h',
             description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
-        }
+        },
+        {
+            id: '3',
+            guild: {
+                id: '1',
+                name: 'Lendários',
+                icon: null,
+                owner: true,
+            },
+            category: '4',
+            date: '22/06 ás 20:40h',
+            description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
+        },
+        {
+            id: '4',
+            guild: {
+                id: '1',
+                name: 'Lendários',
+                icon: null,
+                owner: true,
+            },
+            category: '3',
+            date: '22/06 ás 20:40h',
+            description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
+        },
+        {
+            id: '5',
+            guild: {
+                id: '1',
+                name: 'Lendários',
+                icon: null,
+                owner: true,
+            },
+            category: '4',
+            date: '22/06 ás 20:40h',
+            description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
+        },
+        {
+            id: '7',
+            guild: {
+                id: '1',
+                name: 'Lendários',
+                icon: null,
+                owner: true,
+            },
+            category: '3',
+            date: '22/06 ás 20:40h',
+            description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
+        },
+        {
+            id: '8',
+            guild: {
+                id: '1',
+                name: 'Lendários',
+                icon: null,
+                owner: true,
+            },
+            category: '2',
+            date: '22/06 ás 20:40h',
+            description: 'É hoje que vamos chegar ao challenger sem perder uma partida da md10'
+        },
     ]
 
         //Efeito de marcar e desmarcar.
@@ -46,14 +110,26 @@ export function Home(){
             categoryId === category ? setCategory('') : setCategory(categoryId)
         };
 
+
+        //Function para ao clicar em algum dos agendamentos da nossa flatlist ser redirecionado para nossa pagina de AppointmentDetails que são os detalhes do agendamento.
+        const navigation = useNavigation();
+        function handleAppointmentDetails () {
+            navigation.navigate('AppointmentDetails')
+        }
+
+        //Função para navegação para pagida de criar novos agendamentos.  
+        function handleAppointmentCreate () {
+            navigation.navigate('AppointmentCreate')
+        }
+
     return(
 
-        <View>
+        <Background>
             
             <View style={styles.header}>
                 
                 <Profile />
-                <ButtonAdd />
+                <ButtonAdd onPress={handleAppointmentCreate}/>
                 
             </View>
                 
@@ -62,29 +138,33 @@ export function Home(){
                 setCategory={handleCategorySelect}
             />
                 
-            <View style={styles.content}>
-                <ListHeader 
+            
+            <ListHeader 
                     title="Partidas agendadas" 
                     subtitle="Total 6"
-                />
+            />
+            
 
-                <FlatList  
-                    data={appointments}
-                    keyExtractor={item => item.id}
-                    renderItem={({ item }) => (
-                    <Appointment data={item}/>
+            <FlatList  
+                data={appointments}
+                keyExtractor={item => item.id}
+                renderItem={({ item }) => (
+                    <Appointment 
+                        data={item}
+                        onPress={handleAppointmentDetails}
+                    />
                     )}
-                    //Passando como um divisor de lista o nosso componente feito.
-                    ItemSeparatorComponent={() => <ListDivider />}
-                    //Styles da partida marcada
-                    style={styles.matches} 
-                    showsVerticalScrollIndicator={false}
+                //Passando como um divisor de lista o nosso componente feito.
+                ItemSeparatorComponent={() => <ListDivider />}
+                contentContainerStyle={ {paddingBottom: 50} }
+                //Styles da partida marcada
+                style={styles.matches} 
+                showsVerticalScrollIndicator={false}
+                
 
                 />
-    
-            </View>
 
-        </View>
+        </Background>
 
     );
 } 

@@ -6,7 +6,9 @@ import {
     Image,
 
 } from 'react-native';
+import { useAuth } from '../../hooks/auth';
 import { useNavigation } from '@react-navigation/native';
+import { Background } from '../../components/Background';
 //Importando o Componente Button feito na pasta conponets
 import { ButtonIcon } from '../../components/ButtonIcon';
 //Importando a Imagem
@@ -16,7 +18,11 @@ import { styles } from './styles';
 
 
 
+
 export function SignIn(){
+
+    const { user } = useAuth(); 
+
     //função de navegação para signIn
     const navigation = useNavigation();
       
@@ -25,29 +31,34 @@ export function SignIn(){
     }
 
     return(
-    <View style = {styles.container}>
+    <Background>
         
-
-       <Image source={IllustrationImg} style={styles.image} resizeMode="stretch"></Image>
-
-        <View style= {styles.content}>
-
-            <Text style={styles.title}>
-                Conecte-se {'\n'} 
-                e organize {'\n'}
-                suas jogatinas 
-                
-            </Text>
-
-            <Text style={styles.subtitle}>
-            Crie grupos para jogar seus games {`\n`} 
-            favoritos com seus amigos 
-           </Text>
+        <View style = {styles.container}>
             
-           <ButtonIcon title="Entrar com Discord" 
-           onPress={handleSignIn}/>
+
+        <Image source={IllustrationImg} style={styles.image} resizeMode="stretch"></Image>
+
+            <View style= {styles.content}>
+
+                <Text style={styles.title}>
+                    Conecte-se {'\n'} 
+                    e organize {'\n'} 
+                    suas jogatinas 
+                    
+                </Text>
+
+                <Text style={styles.subtitle}>
+                Crie grupos para jogar seus games {`\n`} 
+                favoritos com seus amigos 
+            </Text>
+                
+            <ButtonIcon title="Entrar com Discord" 
+            onPress={handleSignIn}/>
+
+            </View>
 
         </View>
-    </View>
+
+    </Background>
     );
 }

@@ -19,10 +19,6 @@ export const styles = StyleSheet.create({
         marginBottom: 42,
 
     },
-    content: {
-        marginTop: 42,
-        
-    },
     //Styles das partidas marcadas
     matches: {
         marginTop: 24,

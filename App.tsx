@@ -9,6 +9,8 @@ import AppLoading from 'expo-app-loading';
 import { Routes } from './src/routes/';
 //Importando componente de degarde.
 import { Background } from './src/components/Background';
+//Importando o Context para que todas as tela tenham acesso ao context de dados.
+import { AuthProvider } from './src/hooks/auth';
 
 
 export default function App(){
@@ -28,14 +30,16 @@ export default function App(){
   return(
     
     <Background>
+      
        {/*Personalizando a barra de status */}
        <StatusBar
        barStyle = "light-content"
        backgroundColor = "transparent"
        translucent
        />
-   
-      <Routes></Routes>
+      <AuthProvider>
+        <Routes></Routes>
+      </AuthProvider>
 
    </Background>
    
