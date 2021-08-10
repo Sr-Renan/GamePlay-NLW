@@ -4,10 +4,10 @@ import {
     View,
     Text, 
     Image,
+    Alert
 
 } from 'react-native';
 import { useAuth } from '../../hooks/auth';
-import { useNavigation } from '@react-navigation/native';
 import { Background } from '../../components/Background';
 //Importando o Componente Button feito na pasta conponets
 import { ButtonIcon } from '../../components/ButtonIcon';
@@ -21,13 +21,15 @@ import { styles } from './styles';
 
 export function SignIn(){
 
-    const { user } = useAuth(); 
+    const { user, signIn } = useAuth(); 
 
-    //função de navegação para signIn
-    const navigation = useNavigation();
-      
-    function handleSignIn() {
-      navigation.navigate('Home');
+    //função de navegação para signIn  
+    async function handleSignIn() {
+      try {
+        await signIn();
+      }catch (error) {
+        Alert.alert(error)
+      }
     }
 
     return(

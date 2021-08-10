@@ -3,6 +3,7 @@ import React , { createContext, useContext, useState, ReactNode } from 'react'
 import * as AuthSession from 'expo-auth-session'
 
 import { SCOPE, CLIENT_ID, CDN_IMAGE, REDIRECT_URI, RESPONSE_TYPE } from '../configs';
+import { api } from '../services/api';
 
 
 type User ={
@@ -15,6 +16,7 @@ type User ={
 }
  type AuthContextData = {
      user: User;
+     signIn : () => Promise<void>;
  }
 
 
@@ -29,18 +31,22 @@ function AuthProvider({ children }: AuthProviderProps) {
     const [user, setUser] = useState<User>({} as User);
     const [loading, setLoading] = useState(false);
         
-function SignIn() {
+async function signIn() {
     try {
         setLoading(true);
 //Passando pra onde o usuario deve ir ao comecar o processo de autenticação
-        const authUrl = 'https://discord.com/api/oauth2/authorize?client_id=869723271355047936&redirect_uri=https%3A%2F%2Fauth.expo.io%2Fgameplay&response_type=code&scope=identify%20email%20connections%20guilds'
-        AuthSession.startAsync({ authUrl })
-    } catch (error) {
-        
+        const authUrl = `${api.defaults.baseURL}/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+        console.log(authUrl);
+
+
+        const response = AuthSession.startAsync({ authUrl })
+        console.log(response);
+    } catch {
+        throw new Error('Não foi possivel autenticar :)')
     }
 }
     return(
-        <AuthContext.Provider value = {{user}}>
+        <AuthContext.Provider value = {{user , signIn}}>
             { children }
         </AuthContext.Provider>
     )
